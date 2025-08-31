@@ -7,6 +7,7 @@ function App() {
   return (
     <>
       <h1 className='bg-amber-600 text-3xl'>RateMate</h1>
+      <h2 className='text-2xl'>Your Personal Rate Tracker</h2>
     </>
   )
 }
