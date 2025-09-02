@@ -26,7 +26,7 @@ function App() {
   }
 
   return (
-    <div 
+    <div claass = "box"
       style={{
         backgroundImage: "url(https://images.pexels.com/photos/534216/pexels-photo-534216.jpeg)",
         backgroundSize: "cover",
@@ -65,6 +65,11 @@ function App() {
           <div className="w-full mb-1">
             <InputBox
               label="From"
+              amount={amount}
+              currencyOptions={Options}
+              onCurrencyChange={(currency) => {
+                setAmount(amount)
+              }}
             />
           </div>
           
@@ -81,6 +86,12 @@ function App() {
           <div className="w-full mt-1 mb-4">
             <InputBox
               label="To"
+              amount={convertedAmount}
+              currencyOptions={Options}
+              onCurrencyChange={(currency) => {
+               setTo(currency)}
+              }
+              selectCurrency={fromCurrency}
             />
           </div>
           
@@ -88,7 +99,9 @@ function App() {
             type="submit" 
             className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg"
           >
-            Convert
+            Convert {
+              fromCurrency.toUpperCase()
+            } to {toCurrency.toUpperCase()}
           </button>
         </form>
       </div>
