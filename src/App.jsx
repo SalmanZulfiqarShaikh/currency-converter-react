@@ -7,6 +7,32 @@ function App() {
 
 
   const [amount, setAmount] = useState(1);
+  const [fromCurrency, setFromCurrency] = useState("USD");
+  const [toCurrency, setToCurrency] = useState("PKR");
+
+  const [convertedAmount, setConvertedAmount] = useState(0);
+
+  const currrencyInfo = useCurrencyInfo(fromCurrency);
+
+
+  const Options = Object.keys(currrencyInfo);
+
+
+  const swapCurrencies = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+    setConvertedAmount(amount);
+    setAmount(convertedAmount);
+  }
+
+
+   
+  const convert = () => {
+
+    if (!amount || isNaN(amount)) {
+      setConvertedAmount(amount * currrencyInfo[toCurrency]);
+    }
+  }
 
 
   return (
