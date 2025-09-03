@@ -1,16 +1,32 @@
 import { useEffect, useState } from "react";
 
-function useCurrencyInfo(currency){
+function useCurrencyInfo(currency) {
+  const [data, setData] = useState({});
 
-    const [data, setData] = useState({});
+  useEffect(() => {
+    if (!currency) return;
 
-     useEffect(() => {
-        fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{fromCurrency}.json
+    const controller = new AbortController();
 
-`).then(res => res.json()).then((res) => setData(res[currency]))
-     }, [currency])
-    
-     return data;
-    };
+    fetch(
+      `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${currency.toLowerCase()}.json`,
+      { signal: controller.signal }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setData(res[currency.toLowerCase()]);
+      })
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          console.error("Currency API Error:", err);
+        }
+      });
+
+    // cleanup if component unmounts or currency changes
+    return () => controller.abort();
+  }, [currency]);
+
+  return data;
+}
 
 export default useCurrencyInfo;
