@@ -1,7 +1,6 @@
 import React from 'react'
 import { useId } from 'react';
 
-
 function InputBox({
     label,
     amount,
@@ -9,16 +8,15 @@ function InputBox({
     onCurrencyChange,
     currencyOptions = [],
     className = "",
-    selectedCurrency = "usd"
-
+    selectedCurrency = "usd",
+    amountDisabled = false
 }) {
-   
     const amountInputId = useId();
 
     return (
-        <div className={`bg-white p-3 rounded-lg text-sm flex ${className} `}>
+        <div className={`bg-white p-3 rounded-lg text-sm flex ${className}`}>
             <div className="w-1/2">
-                <label htmlFor={amountInputId}  className="text-black/40 mb-2 inline-block">
+                <label htmlFor={amountInputId} className="text-black/40 mb-2 inline-block">
                     {label}
                 </label>
                 <input
@@ -27,7 +25,16 @@ function InputBox({
                     type="number"
                     placeholder="Amount"
                     value={amount}
-                    onChange={(e) => onAmountChange && onAmountChange(Number(e.target.value))}
+                    onChange={(e) => {
+    const val = e.target.value;
+    // agar empty hai to empty string rehne do
+    if (val === "") {
+      onAmountChange && onAmountChange("");
+    } else {
+      onAmountChange && onAmountChange(val);
+    }
+  }}
+                    disabled={amountDisabled}
                 />
             </div>
             <div className="w-1/2 flex flex-wrap justify-end text-right">
@@ -35,15 +42,13 @@ function InputBox({
                 <select
                     className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
                     value={selectedCurrency}
-                    onChange={(e) => onCurrencyChange && ((e) => onCurrencyChange(e.target.value))}
+                    onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
                 >
-                    
-                        {currencyOptions.map((option) => (
-                            <option key={option} 
-                            value={option}>usd</option>
-                        )
-                        )}
-                
+                    {currencyOptions.map((option) => (
+                        <option key={option} value={option}>
+                            {option.toUpperCase()}
+                        </option>
+                    ))}
                 </select>
             </div>
         </div>
