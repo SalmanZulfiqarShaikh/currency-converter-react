@@ -1,4 +1,4 @@
 import Inputbox from "./Inputbox";
 
 
-export { InputBox };
+export { Inputbox };
